@@ -17,7 +17,24 @@ class App extends Component {
 
 
 
-  nameChangeHandler = (event) => {
+  nameChangeHandler = (event, id) => {
+
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    })
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+    
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    person[personIndex] = person;
+
+    this.setState({
+      persons
+    })
+
     this.setState({
       persons: [
         {name: 'Maximilian', age: '16'},
@@ -25,6 +42,9 @@ class App extends Component {
         {name: 'John', age: '20'}
       ]
     })
+
+
+
   }
   toggleUserHandler = (e) => {
     const doesShow = this.state.showToggler;
@@ -61,6 +81,7 @@ class App extends Component {
           name = {person.name}
           age = {person.age}
           key = {person.id}
+          changed = {(event) => this.nameChangeHandler(event, person.id)}
           />
         })}
         
